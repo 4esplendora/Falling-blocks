@@ -54,3 +54,24 @@ function createFallingObject() {
 
 // Start the game by creating the first falling object
 createFallingObject();
+let isDragging = false;
+
+// Handle touch start event
+character.addEventListener('touchstart', (e) => {
+    isDragging = true;
+});
+
+// Handle touch move event
+character.addEventListener('touchmove', (e) => {
+    if (isDragging) {
+        const touchX = e.touches[0].clientX - gameContainer.getBoundingClientRect().left;
+        // Ensure character doesn't move outside the container
+        characterPosition = Math.max(0, Math.min(gameContainer.offsetWidth - character.offsetWidth, touchX - character.offsetWidth / 2));
+        character.style.left = `${characterPosition}px`;
+    }
+});
+
+// Handle touch end event
+character.addEventListener('touchend', () => {
+    isDragging = false;
+});
